@@ -1,0 +1,8 @@
+#root {
+  width: 100%;
+  overflow-x: clip;
+}
+
+.swiper-pagination-bullet{
+  background: #826DF5 !important;
+}

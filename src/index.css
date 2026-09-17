@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3);
+  border-radius: 3px;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes blobMorph1 {
+  0%, 100% {
+    border-radius: 38% 62% 62% 38% / 38% 38% 62% 62%;
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    border-radius: 58% 42% 46% 54% / 54% 46% 54% 46%;
+    transform: translate(24px, 20px) scale(1.06);
+  }
+}
+
+@keyframes blobMorph2 {
+  0%, 100% {
+    border-radius: 48% 52% 58% 42% / 46% 44% 56% 54%;
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    border-radius: 60% 40% 42% 58% / 50% 60% 40% 50%;
+    transform: translate(-24px, -18px) scale(1.05);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+#root {
+  width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
+}
