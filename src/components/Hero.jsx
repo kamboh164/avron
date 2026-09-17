@@ -4,7 +4,7 @@ import PlayCircleOutlineRoundedIcon from "@mui/icons-material/PlayCircleOutlineR
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import LiquidBlobs from "./LiquidBlobs";
 import GridPattern from "./GridPattern";
-import HeroImage from "../assets/images/intellectarc-img-1.webp";
+import HeroImage from "../assets/images/avron-hero.jpg";
 
 export default function Hero() {
   const theme = useTheme();
@@ -196,9 +196,9 @@ export default function Hero() {
               width="600"
               height="552"
               sx={{
-                width: "100%",
-                height: "auto",
-                objectFit: "contain",
+                width: "530px",
+                height: "530px",
+                objectFit: "cover",
                 display: "block",
                 filter: isDark
                   ? "drop-shadow(0 20px 40px rgba(0,0,0,0.5))"
