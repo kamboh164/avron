@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography, Button, useTheme } from "@mui/material";
+import { Box, Container, Stack, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
@@ -80,53 +80,53 @@ const SERVICES = [
   },
 ];
 
-const STACK_OFFSET = 20;
-const BASE_TOP = 130;
-
-function ServiceCard({ service, flip, index, isDark }) {
+function ServiceCard({ service, flip, index, isDark, isSticky }) {
   return (
     <Box
       className="sticky-card"
       sx={{
-        position: "sticky",
-        top: { xs: "80px", md: `${BASE_TOP + index * STACK_OFFSET}px` },
+        position: isSticky ? "sticky" : "relative",
+        // Offset scales with viewport height (vars are defined on the wrapper)
+        top: isSticky ? `calc(var(--stack-top) + ${index} * var(--stack-step))` : "auto",
         zIndex: index + 1,
-        mb: { xs: 3, md: 4 },
+        mb: { xs: 3, md: "clamp(20px, 3vh, 32px)" },
       }}
     >
       <Stack
         direction={{ xs: "column", md: flip ? "row-reverse" : "row" }}
         alignItems="center"
         justifyContent="space-between"
-        spacing={{ xs: 4, md: 6, lg: 8 }}
+        spacing={{ xs: 3.5, md: 5, lg: 8 }}
         sx={{
-          py: { xs: 4, sm: 5, md: 6 },
-          px: { xs: 2.5, sm: 4, md: 6 },
-          borderRadius: "24px",
+          py: { xs: 4, sm: 5, md: "clamp(20px, 5vh, 56px)" },
+          px: { xs: 2.5, sm: 4, md: "clamp(28px, 4vw, 64px)" },
+          borderRadius: { xs: "20px", md: "24px" },
           bgcolor: "background.default",
           border: "1px solid",
           borderColor: "divider",
         }}
       >
-        {/* Service Preview Image Container */}
+        {/* Image: square, sized by whichever is smaller — available width or viewport height */}
         <Box
           sx={{
             flex: 1,
             width: "100%",
+            minWidth: 0,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            overflow: "hidden",
           }}
         >
           <Box
             component="img"
             src={service.image}
             alt={`${service.title} Preview`}
+            loading="lazy"
+            decoding="async"
             sx={{
-              width: "100%",
-              maxWidth: { xs: 280, sm: 340, md: 460, lg: 500 },
-              height: { xs: 280, sm: 340, md: 460, lg: 500 },
+              width: { xs: "min(100%, 320px)", sm: "min(100%, 380px)", md: "min(100%, 520px, 50vh)" },
+              aspectRatio: "1 / 1",
+              height: "auto",
               objectFit: "cover",
               display: "block",
               filter: isDark
@@ -137,12 +137,12 @@ function ServiceCard({ service, flip, index, isDark }) {
           />
         </Box>
 
-        {/* Text Content Container */}
-        <Box sx={{ flex: 1, textAlign: { xs: "center", md: "left" }, width: "100%" }}>
+        {/* Text */}
+        <Box sx={{ flex: 1, minWidth: 0, textAlign: { xs: "center", md: "left" }, width: "100%" }}>
           <Typography
             variant="h3"
             sx={{
-              fontSize: { xs: "1.6rem", sm: "1.9rem", md: "2.2rem" },
+              fontSize: "clamp(1.5rem, 1rem + 1.4vw, 2.4rem)",
               color: "text.primary",
               mb: 1.5,
               lineHeight: 1.2,
@@ -154,12 +154,12 @@ function ServiceCard({ service, flip, index, isDark }) {
 
           <Typography
             sx={{
-              fontSize: { xs: "0.95rem", sm: "1.05rem" },
+              fontSize: "clamp(0.92rem, 0.85rem + 0.25vw, 1.08rem)",
               fontWeight: 300,
               lineHeight: 1.6,
               color: "text.secondary",
-              mb: 3,
-              maxWidth: 520,
+              mb: { xs: 3, md: "clamp(14px, 2.5vh, 28px)" },
+              maxWidth: 560,
               mx: { xs: "auto", md: 0 },
             }}
           >
@@ -167,7 +167,7 @@ function ServiceCard({ service, flip, index, isDark }) {
           </Typography>
 
           <Stack
-            spacing={1.5}
+            spacing={{ xs: 1.5, md: "clamp(8px, 1.4vh, 14px)" }}
             alignItems={{ xs: "center", md: "flex-start" }}
             sx={{ width: "100%" }}
           >
@@ -179,7 +179,7 @@ function ServiceCard({ service, flip, index, isDark }) {
                 alignItems="flex-start"
                 sx={{
                   width: "100%",
-                  maxWidth: { xs: 360, md: "none" },
+                  maxWidth: { xs: 380, md: "none" },
                   textAlign: "left",
                 }}
               >
@@ -201,7 +201,7 @@ function ServiceCard({ service, flip, index, isDark }) {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: { xs: "0.9rem", sm: "1rem" },
+                    fontSize: "clamp(0.88rem, 0.82rem + 0.2vw, 1rem)",
                     color: "text.secondary",
                     lineHeight: 1.5,
                   }}
@@ -221,12 +221,18 @@ export default function Services() {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
+  // Keep the stacking animation on for any normal desktop width, at any zoom level.
+  // Only very short viewports (e.g. landscape phones or extreme zoom) fall back to plain scrolling.
+  const isSticky = useMediaQuery(
+    `(min-width: ${theme.breakpoints.values.md}px) and (min-height: 480px)`
+  );
+
   return (
     <Box
       id="services"
       component="section"
       sx={{
-        py: { xs: 8, md: 14 },
+        py: { xs: 8, md: "clamp(72px, 12vh, 140px)" },
         px: { xs: 2, sm: 3 },
         bgcolor: "background.paper",
       }}
@@ -239,7 +245,7 @@ export default function Services() {
           <Typography
             variant="h2"
             sx={{
-              fontSize: { xs: "2.1rem", sm: "2.8rem", md: "3.5rem" },
+              fontSize: "clamp(2rem, 1.2rem + 2.4vw, 3.5rem)",
               mb: 2,
               fontWeight: 700,
               color: "text.primary",
@@ -265,15 +271,21 @@ export default function Services() {
               maxWidth: 580,
               mx: "auto",
               lineHeight: 1.7,
-              fontSize: { xs: "0.95rem", sm: "1.05rem" },
+              fontSize: "clamp(0.95rem, 0.88rem + 0.25vw, 1.08rem)",
             }}
           >
             From the first sketch to the final deploy, we cover every layer of your digital presence — design, development, branding, and AI.
           </Typography>
         </Box>
 
-        {/* Sticky Services Cards Stack */}
-        <Box sx={{ position: "relative" }}>
+        {/* Services Cards Stack */}
+        <Box
+          sx={{
+            position: "relative",
+            "--stack-top": "clamp(72px, 11vh, 140px)",
+            "--stack-step": "clamp(10px, 1.6vh, 20px)",
+          }}
+        >
           {SERVICES.map((service, i) => (
             <ServiceCard
               key={service.title}
@@ -281,11 +293,12 @@ export default function Services() {
               flip={i % 2 === 1}
               index={i}
               isDark={isDark}
+              isSticky={isSticky}
             />
           ))}
         </Box>
 
-        {/* See All Services CTA Button */}
+        {/* See All Services CTA */}
         <Box
           sx={{
             display: "flex",
@@ -297,7 +310,7 @@ export default function Services() {
         >
           <Button
             component={RouterLink}
-            to="/services"
+            to="#"
             variant="contained"
             size="large"
             endIcon={<ArrowForwardRoundedIcon />}

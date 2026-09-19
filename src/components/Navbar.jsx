@@ -37,7 +37,7 @@ const SERVICES_DROPDOWN = [
 
 const LINKS = [
   { label: "Home", href: "#home" },
-  { label: "Avron", href: "#avron" },
+  { label: "Avron", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Services", href: "#services", hasDropdown: true },
   { label: "Shop Now", href: "#shop" },
@@ -130,8 +130,8 @@ export default function Navbar({ mode, onToggleMode, onMenuOpen }) {
             height={70}
             fetchpriority="high"
             sx={{
-              width: "81px",
-              height: "72px",
+              width: "70px",
+              height: "70px",
               objectFit: "contain",
               display: "block",
             }}
@@ -269,7 +269,7 @@ export default function Navbar({ mode, onToggleMode, onMenuOpen }) {
           {!isMobile && (
             <Button
               component={RouterLink}
-              to={resolveToProps("#start-project")}
+              to={resolveToProps("#")}
               variant="contained"
               size="medium"
               sx={{
@@ -419,7 +419,7 @@ export default function Navbar({ mode, onToggleMode, onMenuOpen }) {
           <Box sx={{ pt: 2, borderTop: (t) => `1px solid ${t.palette.divider}` }}>
             <Button
               component={RouterLink}
-              to={resolveToProps("#start-project")}
+              to={resolveToProps("#")}
               onClick={() => setDrawerOpen(false)}
               fullWidth
               variant="contained"
